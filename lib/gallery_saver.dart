@@ -49,6 +49,7 @@ class GallerySaver {
   static Future<bool?> saveImage(
     String path, {
     String? albumName,
+    String? fileName,
     bool toDcim = false,
     Map<String, String>? headers,
   }) async {
@@ -76,7 +77,7 @@ class GallerySaver {
   }
 
   static Future<File> _downloadFile(String url,
-      {Map<String, String>? headers}) async {
+      {Map<String, String>? headers,String? fileName}) async {
     print(url);
     print(headers);
     http.Client _client = new http.Client();
@@ -86,7 +87,7 @@ class GallerySaver {
     }
     var bytes = req.bodyBytes;
     String dir = (await getTemporaryDirectory()).path;
-    File file = new File('$dir/${basename(url)}');
+    File file = new File('$dir/${fileName??basename(url)}');
     await file.writeAsBytes(bytes);
     print('File size:${await file.length()}');
     print(file.path);
